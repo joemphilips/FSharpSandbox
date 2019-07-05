@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Utils/RResult.fs" />
+    <Compile Include="Utils/ApplicativeOptParser.fs" />
+    <Compile Include="AlternativeReaderMonad.fs" />
+    <Compile Include="Turtle/Common.fs" />
+    <Compile Include="Turtle/FPTurtleLib.fs" />
+    <Compile Include="Turtle/StateMonad.fs" />
+    <Compile Include="Turtle/EventSourcing.fs" />
+    <Compile Include="Turtle/FRP.fs" />
+    <Compile Include="Turtle/AdtTurtle.fs" />
+    <Compile Include="Turtle/CapabilityBasedTurtle.fs" />
+    <Compile Include="ADT/ImpureADTReader.fs" />
+    <Compile Include="MonadicTrampoline.fs" />
+    <Compile Include="FSharpPlus/State.fs" />
+    <Compile Include="FSharpX/State.fs" />
+    <Compile Include="PinetreeCQRS/Infrastructure/Types.fs" />
+    <Compile Include="PinetreeCQRS/Infrastructure/Events.fs" />
+    <Compile Include="PinetreeCQRS/Infrastructure/Commands.fs" />
+    <Compile Include="PinetreeCQRS/Infrastructure/Validation.fs" />
+    <Compile Include="PinetreeCQRS/Persistance/SqlServer.fs" />
+
+    <Compile Include="PinetreeShop/Domain/Baskets/BasketAggregate.fs" />
+    <Compile Include="PinetreeShop/Domain/Baskets/CommandHandler.fs" />
+    <Compile Include="PinetreeShop/Domain/Baskets/Reader.fs" />
+
+    <Compile Include="PinetreeShop/Domain/Products/ProductAggregate.fs" />
+    <Compile Include="PinetreeShop/Domain/Products/CommandHandler.fs" />
+    <Compile Include="PinetreeShop/Domain/Products/ReadModel.fs" />
+
+    <Compile Include="PinetreeShop/Domain/Orders/OrderAggregate.fs" />
+    <Compile Include="PinetreeShop/Domain/Orders/CommandHandler.fs" />
+    <Compile Include="PinetreeShop/Domain/Orders/ReadModel.fs" />
+
+    <Compile Include="PinetreeShop/Domain/OrderProcess/EventProcessor.fs" />
+    <Compile Include="PinetreeShop/Domain/OrderProcess/OrderProcessManager.fs" />
+
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="3.1.1" />
+    <PackageReference Include="SqlProvider" Version="1.1.65" />
+  </ItemGroup>
+</Project>

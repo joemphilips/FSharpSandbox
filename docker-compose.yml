@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  bitcoind:
+    restart: unless-stopped
+    image: nicolasdorier/docker-bitcoin:0.17.0
+    environment:
+      BITCOIN_NETWORK: "${PINETREESHOP_NETWORK:-regtest}"
+      BITCOIN_EXTRA_ARGS: |
+        rpcuser=0I5rfLbJEXsg
+        rpcpassword=yJt7h7D8JpQy
+        server=1
+        rpcport=${PINETREESHOP_BITCOIND_RPCPORT:?NoBitcoinRpcPortSpecified}
+        port=${PINETREESHOP_BITCOIND_PORT:?NoBitcoinPortSpecified}
+        whitelist=0.0.0.0/0
+        zmqpubrawblock=tcp://0.0.0.0:28332
+        zmqpubrawtx=tcp://0.0.0.0:28333
+    ports:
+      - "${PINETREESHOP_BITCOIND_PORT}:${PINETREESHOP_BITCOIND_PORT}"
+      - "${PINETREESHOP_BITCOIND_RPCPORT}:${PINETREESHOP_BITCOIND_RPCPORT}"
+    expose:
+      - "${PINETREESHOP_BITCOIND_PORT}"
+      - "${PINETREESHOP_BITCOIND_RPCPORT}"
+    volumes:
+      - "${PINETREESHOP_DATADIR:?NoDataDirSpecified}/bitcoind_dir:/home/bitcoin/.bitcoin"
+  lnd:
+    restart: unless-stopped
+    image: btcpayserver/lnd:v0.5.1-beta-2
+    environment:
+      LND_CHAIN: "btc"
+      LND_ENVIRONMENT: "${PINETREESHOP_NETWORK:-regtest}"
+      LND_EXTRA_ARGS: |
+        restlisten=0.0.0.0:8080
+        bitcoin.node=bitcoind
+        bitcoind.rpchost=bitcoind:${PINETREESHOP_BITCOIND_RPCPORT}
+        bitcoind.rpcuser=0I5rfLbJEXsg
+        bitcoind.rpcpass=yJt7h7D8JpQy
+        bitcoind.zmqpubrawblock=tcp://bitcoind:28332
+        bitcoind.zmqpubrawtx=tcp://bitcoind:28333
+        trickledelay=1000
+        externalip=lnd_for_balancer:9735
+        no-macaroons=1
+        debuglevel=debug
+        noseedbackup=1
+    ports:
+      - "${PINETREESHOP_LND_RESTPORT:?NoBalancerRESTPort}:8080"
+    expose:
+      - "9735"
+      - "8080"
+    volumes:
+      - "${PINETREESHOP_DATADIR}/lnd_for_balancer_dir:/data"
+      - "${PINETREESHOP_DATADIR}/bitcoind_dir:/deps/.bitcoin"
+    links:
+      - bitcoind
+  postgresql:
+    restart: unless-stopped
+    image: postgres:latest
