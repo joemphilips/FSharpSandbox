@@ -2,4 +2,6 @@ bin
 obj
 bitcoind_dir
 postgres
+pgadmin
 .ionide
+

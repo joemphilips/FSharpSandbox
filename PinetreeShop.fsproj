@@ -9,15 +9,37 @@
     <Compile Include="AlternativeReaderMonad.fs" />
     <Compile Include="Turtle/Common.fs" />
     <Compile Include="Turtle/FPTurtleLib.fs" />
+    <Compile Include="Turtle/FPTurtleLib2.fs" />
     <Compile Include="Turtle/StateMonad.fs" />
     <Compile Include="Turtle/EventSourcing.fs" />
     <Compile Include="Turtle/FRP.fs" />
     <Compile Include="Turtle/AdtTurtle.fs" />
+    <Compile Include="Turtle/Interpreter.fs" />
     <Compile Include="Turtle/CapabilityBasedTurtle.fs" />
     <Compile Include="ADT/ImpureADTReader.fs" />
     <Compile Include="MonadicTrampoline.fs" />
     <Compile Include="FSharpPlus/State.fs" />
     <Compile Include="FSharpX/State.fs" />
+    <Compile Include="Calculator/V2.fs" />
+    <Compile Include="CardManagement/CardManagement.Common/Common.fs" />
+    <Compile Include="CardManagement/CardManagement.Common/Errors.fs" />
+    <Compile Include="CardManagement/CardManagement.Common/ErrorMessages.fs" />
+    <Compile Include="CardManagement/CardManagement.Common/Country.fs" />
+    <Compile Include="CardManagement/CardManagement.Common/CommonTypes.fs" />
+    <Compile Include="CardManagement/CardManagement/CardDomain.fs" />
+    <Compile Include="CardManagement/CardManagement/BalanceOperation.fs" />
+    <Compile Include="CardManagement/CardManagement/CardAction.fs" />
+    <Compile Include="CardManagement/CardManagement/CardDomainQueryModels.fs" />
+    <Compile Include="CardManagement/CardManagement/CardDomainCommandModels.fs" />
+    <Compile Include="CardManagement/CardManagement/CardProgramBuilder.fs" />
+    <Compile Include="CardManagement/CardManagement/CardWorkflow.fs" />
+    <Compile Include="CardManagement/CardManagement.Data/CardDomainEntities.fs" />
+    <Compile Include="CardManagement/CardManagement.Data/EntityToDomainMapping.fs" />
+    <Compile Include="CardManagement/CardManagement.Data/DomainToEntityMapping.fs" />
+    <Compile Include="CardManagement/CardManagement.Data/CardMongoConfiguration.fs" />
+    <Compile Include="CardManagement/CardManagement.Data/QueryRepository.fs" />
+    <Compile Include="CardManagement/CardManagement.Data/CommandRepository.fs" />
+    <Compile Include="CardManagement/CardManagement.Data/CardDataPipeline.fs" />
     <Compile Include="PinetreeCQRS/Infrastructure/Types.fs" />
     <Compile Include="PinetreeCQRS/Infrastructure/Events.fs" />
     <Compile Include="PinetreeCQRS/Infrastructure/Commands.fs" />
@@ -43,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="3.1.1" />
+    <PackageReference Include="Npgsql" Version="4.0.7" />
     <PackageReference Include="SqlProvider" Version="1.1.65" />
   </ItemGroup>
 </Project>

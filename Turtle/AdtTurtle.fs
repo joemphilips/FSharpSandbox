@@ -43,4 +43,4 @@ module AdtTurtleClient =
     let log msg =
         printfn "%s" msg
 
-    let move = Turtle.move log
+    let move = TurtleV1.move log

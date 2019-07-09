@@ -2,11 +2,12 @@ namespace FPTurtle
 
 open System
 open Common
+open TurtleV1
 
 /// Create a type to wrap a function like
 ///     oldState -> j(a, newState)
 type TurtleStateComputation<'a> =
-    TurtleStateComputation of (Turtle.TurtleState -> 'a * Turtle.TurtleState)
+    TurtleStateComputation of (TurtleV1.TurtleState -> 'a * TurtleV1.TurtleState)
 
 
 module TurtleStateComputation =
@@ -52,22 +53,22 @@ module TurtleComputationClient =
     let log msg = printfn "%s" msg
 
     let initialTurtleState =
-        Turtle.initialTurtleState
+        TurtleV1.initialTurtleState
 
     let move dist =
-        toUnitComputation (Turtle.move log dist)
+        toUnitComputation (TurtleV1.move log dist)
 
     let turn angle =
-        toUnitComputation (Turtle.turn log angle)
+        toUnitComputation (TurtleV1.turn log angle)
 
     let penDown =
-        toUnitComputation (Turtle.penDown log)
+        toUnitComputation (TurtleV1.penDown log)
 
     let penUp =
-        toUnitComputation (Turtle.penUp log)
+        toUnitComputation (TurtleV1.penUp log)
 
     let setColor c =
-        toUnitComputation (Turtle.setColor log c)
+        toUnitComputation (TurtleV1.setColor log c)
 
     let drawTriangle() =
         let t = turtle {

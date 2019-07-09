@@ -1,6 +1,6 @@
 namespace FPTurtle
 
-module Turtle =
+module TurtleV1 =
     type TurtleState = {
         position: Position
         angle: float<Degrees>

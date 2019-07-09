@@ -26,12 +26,13 @@ services:
   lnd:
     restart: unless-stopped
     image: btcpayserver/lnd:v0.5.1-beta-2
-    environment: LND_CHAIN: "btc"
+    environment:
+      LND_CHAIN: "btc"
       LND_ENVIRONMENT: "${PINETREESHOP_NETWORK:-regtest}"
       LND_EXTRA_ARGS: |
         restlisten=0.0.0.0:8080
         bitcoin.node=bitcoind
-        bitcoind.rpchost=bitcoind:${PINETREESHOP_BITCOIND_RPCPORT}
+        bitcoind.rpchost=bitcoind:${PINETREESHOP_BITCOIND_RPCPORT:-18443}
         bitcoind.rpcuser=0I5rfLbJEXsg
         bitcoind.rpcpass=yJt7h7D8JpQy
         bitcoind.zmqpubrawblock=tcp://bitcoind:28332
@@ -42,13 +43,14 @@ services:
         debuglevel=debug
         noseedbackup=1
     ports:
-      - "${PINETREESHOP_LND_RESTPORT:?NoBalancerRESTPort}:8080"
+      - "${PINETREESHOP_LND_RESTPORT:-23872}:8080"
     expose:
+      - "23872"
       - "9735"
       - "8080"
     volumes:
-      - "${PINETREESHOP_DATADIR}/lnd_for_balancer_dir:/data"
-      - "${PINETREESHOP_DATADIR}/bitcoind_dir:/deps/.bitcoin"
+      - "./lnd_dir:/data"
+      - "./bitcoind_dir:/deps/.bitcoin"
     links:
       - bitcoind
   postgresql:
@@ -65,3 +67,19 @@ services:
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
     hostname: postgres
     user: root
+
+  pgadmin4:
+    restart: unless-stopped
+    image: dpage/pgadmin4:3.3
+    container_name: pgadmin4
+    command: -s --bind=0.0.0.0 --listen=80  --url postgresql://test:@postgres/test?sslmode=disable
+    links:
+      - postgresql:postgresql
+    ports:
+      - 80:80
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin/storage
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root
+      PGADMIN_DEFAULT_PASSWORD: root
+    hostname: pgadmin4

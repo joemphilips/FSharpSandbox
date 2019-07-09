@@ -38,15 +38,15 @@ module CommandHandler =
     let applyEvent log oldState e =
         match e with
         | Moved d ->
-            Turtle.move log d oldState
+            TurtleV1.move log d oldState
         | Turned angle ->
-            Turtle.turn log angle oldState
+            TurtleV1.turn log angle oldState
         | PenWentUp ->
-            Turtle.penUp log oldState
+            TurtleV1.penUp log oldState
         | PenWentDown ->
-            Turtle.penDown log oldState
+            TurtleV1.penDown log oldState
         | ColorChanged c ->
-            Turtle.setColor log c oldState
+            TurtleV1.setColor log c oldState
 
     let eventsFromCommand log command stateBeforeCommand =
         let stateChangedEvent = 
@@ -98,7 +98,7 @@ module CommandHandler =
         // recreate events
         let stateBeforeCommand =
             let nolog = ignore /// no logging when recreating state
-            eventHistory |> List.fold (applyEvent nolog) Turtle.initialTurtleState
+            eventHistory |> List.fold (applyEvent nolog) TurtleV1.initialTurtleState
 
         // construct the events from the command and the stateBeforeCommand
         // Do use the supplied logger for this bit.
