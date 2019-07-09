@@ -10,24 +10,23 @@ services:
         rpcuser=0I5rfLbJEXsg
         rpcpassword=yJt7h7D8JpQy
         server=1
-        rpcport=${PINETREESHOP_BITCOIND_RPCPORT:?NoBitcoinRpcPortSpecified}
-        port=${PINETREESHOP_BITCOIND_PORT:?NoBitcoinPortSpecified}
+        port="${PINETREESHOP_BITCOIND_PORT:-18444}"
+        rpcport="${PINETREESHOP_BITCOIND_RPCPORT:-18443}"
         whitelist=0.0.0.0/0
         zmqpubrawblock=tcp://0.0.0.0:28332
         zmqpubrawtx=tcp://0.0.0.0:28333
     ports:
-      - "${PINETREESHOP_BITCOIND_PORT}:${PINETREESHOP_BITCOIND_PORT}"
-      - "${PINETREESHOP_BITCOIND_RPCPORT}:${PINETREESHOP_BITCOIND_RPCPORT}"
+      - "${PINETREESHOP_BITCOIND_PORT:-18444}:${PINETREESHOP_BITCOIND_PORT:-18444}"
+      - "${PINETREESHOP_BITCOIND_RPCPORT:-18443}:${PINETREESHOP_BITCOIND_RPCPORT:-18443}"
     expose:
-      - "${PINETREESHOP_BITCOIND_PORT}"
-      - "${PINETREESHOP_BITCOIND_RPCPORT}"
+      - "${PINETREESHOP_BITCOIND_PORT:-18444}"
+      - "${PINETREESHOP_BITCOIND_RPCPORT:-18443}"
     volumes:
-      - "${PINETREESHOP_DATADIR:?NoDataDirSpecified}/bitcoind_dir:/home/bitcoin/.bitcoin"
+      - "./bitcoind_dir:/home/bitcoin/.bitcoin"
   lnd:
     restart: unless-stopped
     image: btcpayserver/lnd:v0.5.1-beta-2
-    environment:
-      LND_CHAIN: "btc"
+    environment: LND_CHAIN: "btc"
       LND_ENVIRONMENT: "${PINETREESHOP_NETWORK:-regtest}"
       LND_EXTRA_ARGS: |
         restlisten=0.0.0.0:8080
@@ -54,4 +53,15 @@ services:
       - bitcoind
   postgresql:
     restart: unless-stopped
-    image: postgres:latest
+    image: postgres:10.5
+    container_name: postgresql
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    hostname: postgres
+    user: root

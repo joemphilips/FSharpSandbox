@@ -1,2 +1,5 @@
 bin
 obj
+bitcoind_dir
+postgres
+.ionide
